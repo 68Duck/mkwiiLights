@@ -23,7 +23,7 @@ class Raspberry_pi_manager(object):
 
     def send_command(self,command):
         self.client.send(command.encode())
-        from_server = self.client.recv(4096).decode()
+        from_server = self.client.recv(16).decode()
         # print("Recieved: "+ from_server)
         return from_server
 

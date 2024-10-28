@@ -11,13 +11,23 @@ def sendPosition(imageFile):
     print(position)
     piManager.send_command(f"position({position})")
 
+def sendStart(number):
+    global piManager 
+    print(number)
+    if number == "GO":
+        piManager.send_command("green_flash()")
+    else:
+        piManager.send_command("red_flash()")
+    print("sned")
+
 def main():
+
     global piManager
 
     piManager.connect_client()
 
     imageProcessor = ImageProcessor()
-    t = threading.Thread(target = imageProcessor.runGame, args=[sendPosition])
+    t = threading.Thread(target = imageProcessor.runGame, args=[sendPosition, sendStart])
     # imageProcessor.runGame(print)
     t.start()
     t.join()
