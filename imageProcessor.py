@@ -57,15 +57,16 @@ class ImageProcessor(object):
                     print("GO!")
                     startFunction("GO")
                     currentNumber = 3
-                    continue
+                    break
 
-            print("testing", currentNumber)
+            # print("testing", currentNumber)
             # for image in self.startingImages:
                 # if pyautogui.locateOnScreen(image, grayscale=True, region = self.startRegion, confidence=0.8):
                 #     print(image)
                 #     if image == "startingImages\\GO.PNG":
                 #         starting = False
                 #         break
+            print("test")
         while self.racing:
             for image in self.positionImages:
                 if pyautogui.locateOnScreen(image, grayscale=True, region = self.positionRegion, confidence=0.7):
