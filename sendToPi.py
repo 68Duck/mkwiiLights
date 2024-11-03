@@ -7,9 +7,9 @@ class Raspberry_pi_manager(object):
     def __init__(self,ip,password):
         self.ip = ip
         self.password = password
-        # self.client = paramiko.SSHClient()
-        # self.client.load_system_host_keys()
-        # self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.pi_client = paramiko.SSHClient()
+        self.pi_client.load_system_host_keys()
+        self.pi_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def connect_client(self):
@@ -29,11 +29,11 @@ class Raspberry_pi_manager(object):
 
     def run_file(self):
         try:
-            self.client.connect(self.ip,"22","pi",self.password)
-            # dir = "/var/www/dmx"
-            # command = "sudo python raspberry_pi_connection_test2.py"
-            stdin, stdout, stderr = self.client.exec_command('sudo  fuser -k 12345/tcp')
-            # stdin, stdout, stderr = self.client.exec_command(f'cd {dir}; {command}',get_pty=True)
+            self.pi_client.connect(self.ip,"22","pi",self.password)
+            dir = "~/Documents/dmx"
+            command = "sudo python test11.py"
+            stdin, stdout, stderr = self.pi_client.exec_command('sudo  fuser -k 12345/tcp')
+            stdin, stdout, stderr = self.pi_client.exec_command(f'cd {dir}; {command}',get_pty=True)
             stdout.channel.set_combine_stderr(True)
             self.test = stdout
         except paramiko.ssh_exception.AuthenticationException:
@@ -58,9 +58,9 @@ class Raspberry_pi_manager(object):
         # except Exception as e:
         #     print(e)
         try:
-            self.client.close()
-            self.client.shutdown(1)
-            self.client.close()
+            self.pi_client.close()
+            self.pi_client.shutdown(1)
+            self.pi_client.close()
         except Exception as e:
             print(e)
 

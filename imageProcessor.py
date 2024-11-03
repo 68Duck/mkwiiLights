@@ -30,46 +30,58 @@ class ImageProcessor(object):
             
         return images
 
-    def runGame(self, positionChangeFunction, startFunction):
+    def runGame(self, positionChangeFunction, startFunction, finishFunction):
         self.starting = True
         currentNumber = 3
-        while self.starting:
-            if currentNumber == 3:
-                if pyautogui.locateOnScreen("startingImages\\3test.PNG", grayscale=True, region = (934, 498, 40, 61), confidence=0.8):
-                    print("3test")
-                    startFunction("3")
-                    currentNumber = 2
-                    continue
-            if currentNumber == 2:
-                if pyautogui.locateOnScreen("startingImages\\2test.PNG", grayscale=True, region = (945, 546, 25, 53), confidence=0.8):
-                    print("2test")
-                    startFunction("2")
-                    currentNumber = 1
-                    continue
-            if currentNumber == 1:
-                if pyautogui.locateOnScreen("startingImages\\1test.PNG", grayscale=True, region = (918, 496, 45, 39), confidence=0.8):
-                    print("1test")
-                    startFunction("1")
-                    currentNumber = 0
-                    continue
-            if currentNumber == 0:
-                if pyautogui.locateOnScreen("startingImages\\goTest.PNG", grayscale=True, region = (885, 506, 28, 46), confidence=0.8):
-                    print("GO!")
-                    startFunction("GO")
-                    currentNumber = 3
-                    break
+        try:
+            while True:
+                while self.starting:
+                    if currentNumber == 3:
+                        if pyautogui.locateOnScreen("startingImages\\actual3.PNG", grayscale=True, region = (934, 504, 37, 50), confidence=0.8):
+                            print("3test")
+                            startFunction("3")
+                            currentNumber = 2
+                            continue
+                    if currentNumber == 2:
+                        if pyautogui.locateOnScreen("startingImages\\actual2.PNG", grayscale=True, region = (945, 496, 51, 15), confidence=0.8):
+                            print("2test")
+                            startFunction("2")
+                            currentNumber = 1
+                            continue
+                    if currentNumber == 1:
+                        if pyautogui.locateOnScreen("startingImages\\actual1.PNG", grayscale=True, region = (941, 498, 20, 32), confidence=0.8):
+                            print("1test")
+                            startFunction("1")
+                            currentNumber = 0
+                            continue
+                    if currentNumber == 0:
+                        if pyautogui.locateOnScreen("startingImages\\actualGo.PNG", grayscale=True, region = (869, 524, 24, 30), confidence=0.8):
+                            print("GO!")
+                            startFunction("GO")
+                            currentNumber = 3
+                            self.starting = False
+                            self.racing = True
+                            break
 
-            # print("testing", currentNumber)
-            # for image in self.startingImages:
-                # if pyautogui.locateOnScreen(image, grayscale=True, region = self.startRegion, confidence=0.8):
-                #     print(image)
-                #     if image == "startingImages\\GO.PNG":
-                #         starting = False
-                #         break
-            print("test")
-        while self.racing:
-            for image in self.positionImages:
-                if pyautogui.locateOnScreen(image, grayscale=True, region = self.positionRegion, confidence=0.7):
-                    positionChangeFunction(image)
-                    break
-            print("processing...")
+                    # print("testing", currentNumber)
+                    # for image in self.startingImages:
+                        # if pyautogui.locateOnScreen(image, grayscale=True, region = self.startRegion, confidence=0.8):
+                        #     print(image)
+                        #     if image == "startingImages\\GO.PNG":
+                        #         starting = False
+                        #         break
+                    print("test")
+                while self.racing:
+                    for image in self.positionImages:
+                        if pyautogui.locateOnScreen(image, grayscale=True, region = self.positionRegion, confidence=0.7):
+                            positionChangeFunction(image)
+                            break
+                    print("processing...")
+                    if pyautogui.locateOnScreen("startingImages\\actualFinish.PNG", grayscale=True, region = (1011, 494, 33, 39), confidence=0.8):
+                        print("FINISH!")
+                        finishFunction()
+                        self.racing = False
+                        self.starting = True
+                        break
+        except (KeyboardInterrupt):
+            print("Keyboard interrupt")

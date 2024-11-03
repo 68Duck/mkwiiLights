@@ -101,9 +101,11 @@ if __name__ == "__main__":
         elif recieved_data == "green_flash()":
             t2 = threading.Thread(target=green_flash)
             t2.start()
+            t2.join()
         elif recieved_data == "red_flash()":
             t2 = threading.Thread(target=red_flash)
             t2.start()
+            t2.join()
         elif recieved_data[0:len("position(")] == "position(":
             position = recieved_data[len("position(") : -3] #gets rid of the ) and th etc.
             position = int(position)
@@ -127,4 +129,5 @@ if __name__ == "__main__":
             dmx.set_data(1, 255)
             dmx.set_data(2, 255)
             dmx.set_data(3, 255)
+            dmx.set_data(4, 255)
         print(recieved_data)

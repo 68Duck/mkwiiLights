@@ -2,7 +2,9 @@ import threading
 from imageProcessor import ImageProcessor
 from sendToPi import Raspberry_pi_manager
 
-piManager = Raspberry_pi_manager("192.168.0.79", None)
+from getpass import getpass
+password = getpass()
+piManager = Raspberry_pi_manager("192.168.0.79", password)
 
 def sendPosition(imageFile):
     global piManager
@@ -18,17 +20,21 @@ def sendStart(number):
         piManager.send_command("green_flash()")
     else:
         piManager.send_command("red_flash()")
-    print("sned")
+    print("send")
+
+def sendFinish():
+    global piManager
+    piManager.send_command("finish()")
 
 def main():
 
     global piManager
-
-    piManager.connect_client()
-
+    piManager.run_file()
+    # piManager.connect_client()
     imageProcessor = ImageProcessor()
-    t = threading.Thread(target = imageProcessor.runGame, args=[sendPosition, sendStart])
+    t = threading.Thread(target = imageProcessor.runGame, args=[sendPosition, sendStart, sendFinish])
     # imageProcessor.runGame(print)
+    t.daemon = True
     t.start()
     t.join()
     # while True:
