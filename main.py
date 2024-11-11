@@ -30,7 +30,7 @@ def main():
 
     global piManager
     piManager.run_file()
-    # piManager.connect_client()
+    piManager.connect_client()
     imageProcessor = ImageProcessor()
     t = threading.Thread(target = imageProcessor.runGame, args=[sendPosition, sendStart, sendFinish])
     # imageProcessor.runGame(print)

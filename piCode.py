@@ -98,6 +98,9 @@ if __name__ == "__main__":
             print("sending zero")
 
             dmx.send_zero()
+        elif recieved_data == "finish()":
+            print("Finished!")
+            dmx.send_zero()
         elif recieved_data == "green_flash()":
             t2 = threading.Thread(target=green_flash)
             t2.start()
